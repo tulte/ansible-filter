@@ -17,7 +17,7 @@ ansible-filter -i dev -l master -u root --check site.yml
 
 ## Ignore Entries
 
-Create a File ansible-filter.ignore in the project folder. Add row seperated by semicolon. First col matcg is task and second is current line.
+Create a File ansible-filter.ignore in the project folder. Add rows seperated by semicolon. First col match is task and second is current line.
 
 ```
 <task1>;<line>

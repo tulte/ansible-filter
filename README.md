@@ -6,7 +6,7 @@ Script to filter for ansible changes.
 
 ```shell
 cp ansible-filter.py /usr/local/bin/ansible-filter
-mkdir +x /usr/local/bin/ansible-filter
+chmod +x /usr/local/bin/ansible-filter
 ```
 
 ## Execute

@@ -38,15 +38,23 @@ def ignore_changed(ignore_entries, task, line):
 
 ignore_entries = task_ignore_list()
 process = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
+mode = None
 for line in iter(process.stdout.readline, ''):
     if line.startswith('TASK'):
         task = line
+        mode = None
+    elif line.startswith('PLAY RECAP') or recap:
+        sys.stdout.write(line)
+        mode = 'RECAP'
+    elif line.startswith('fatal:'):
+        write_colored_text(line, COLOR_RED)
+        mode = 'FATAL'
     elif line.startswith('changed:'):
         if ignore_changed(ignore_entries, task, line) is False:
             sys.stdout.write(task)
             write_colored_text(line, COLOR_YELLOW)
-    elif line.startswith('fatal:'):
-        write_colored_text(line, COLOR_RED)
-    elif line.startswith('PLAY RECAP') or recap:
+            mode = 'CHANGED'
+    elif mode == 'CHANGED':
+        write_colored_text(line, COLOR_YELLOW)
+    elif mode == 'RECAP':
         sys.stdout.write(line)
-        recap = True
